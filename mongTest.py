@@ -6,7 +6,7 @@ Created on Sat Jun 27 21:26:51 2020
 """
 
 import pyautogui as pag
-import harr as h
+import lbpDetector as lbp
 
 #print(pag.confirm('{0}{1}'.format(mX,mY),buttons=['go','stop']))
 #print('{0}{1}'.format(screenWidth,screenHeight))
@@ -14,29 +14,32 @@ import harr as h
 #print("click",pag.click(1,1))
 
 key = pag.confirm('select',
-            buttons=['start','cancel','mute'])
-changeTab = pag.prompt('Input Task Tab Number (change Tab)')
-originTab = pag.prompt('Input origin Tab Number (return Tab)')
+            buttons=['Start','Quit'])
 
 
 
 while True:
     screenWidth, screenHeight = pag.size()
     mX, mY = pag.position()
+    mute = False
     
-    if key=='cancel':
+    if key=='Quit':
         break
-    elif key == 'a':
-        print(pag.alert('{0}{1}'.format(mX, mY)))
-        
-    elif key == 'start':
-        mX, mY = pag.position()
-        h.bodyDetect(changeTab, originTab)
+       
+    elif key == 'Start':
+        cascade = pag.confirm('select cascade method',
+                      buttons = ['lbpcascade','haarcascade'])
+        changeTab = pag.prompt('Input Task Tab Number (change Tab)')
+        originTab = pag.prompt('Input origin Tab Number (return Tab)')
+        if pag.confirm('Select Mute Mode\nWhen people detect, do you want to change Mute On?',
+                       buttons = ['Yes', 'No']) == 'Yes':
+            mute = True
+            pag.alert('Mute Mode ON!!\nPlease Change your state, Volume On')
+        print("Mute Mode = ",mute)
+        lbp.bodyDetect(cascade, changeTab, originTab, mute)
         break;
         #pag.hotkey(['win','2'])
             
-    elif key == 's':
-        pag.screenshot('a.png')
         
     else:
         print('wrong Key')
