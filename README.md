@@ -1,2 +1,2 @@
 # Mongoose_Proj
-auto remote control
+People Detection and Auto Hardware Control Using LBP(Local Binary Pattern) Algorithm with Open CV
